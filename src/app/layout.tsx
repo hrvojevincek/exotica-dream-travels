@@ -5,6 +5,7 @@ import "./globals.css";
 import Header from "@/components/layout/header";
 import SearchTrip from "@/components/layout/search-trip";
 import QueryProvider from "@/components/query-provider";
+import FilterTrip from "@/components/layout/filter-trip";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -36,6 +37,7 @@ export default function RootLayout({
           <main className="p-10">
             <Header />
             <SearchTrip />
+            <FilterTrip />
             {children}
           </main>
         </QueryProvider>
