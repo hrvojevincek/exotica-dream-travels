@@ -9,6 +9,7 @@ import FilterTrip from "@/components/layout/filter-trip";
 
 import { Toaster } from "@/components/ui/sonner";
 import { SearchProvider } from "@/lib/context/search-context";
+import RandomTripSelector from "@/components/layout/random-trip-selector";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -42,6 +43,7 @@ export default function RootLayout({
               <Header />
               <SearchTrip />
               <FilterTrip />
+              <RandomTripSelector />
               {children}
             </main>
             <Toaster />
