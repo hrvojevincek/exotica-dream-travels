@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import { Button } from "../ui/button";
 import Logo from "../../../public/icons/logo";
 import CreateTripModal from "./create-trip-modal";

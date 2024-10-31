@@ -4,10 +4,11 @@ import "./globals.css";
 
 import Header from "@/components/layout/header";
 import SearchTrip from "@/components/layout/search-trip";
-import QueryProvider from "@/components/query-provider";
+import QueryProvider from "@/lib/context/query-provider";
 import FilterTrip from "@/components/layout/filter-trip";
 
 import { Toaster } from "@/components/ui/sonner";
+import { SearchProvider } from "@/lib/context/search-context";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -36,13 +37,15 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <QueryProvider>
-          <main className="p-10">
-            <Header />
-            <SearchTrip />
-            <FilterTrip />
-            {children}
-          </main>
-          <Toaster />
+          <SearchProvider>
+            <main className="p-10">
+              <Header />
+              <SearchTrip />
+              <FilterTrip />
+              {children}
+            </main>
+            <Toaster />
+          </SearchProvider>
         </QueryProvider>
       </body>
     </html>
