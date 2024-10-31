@@ -7,6 +7,8 @@ import SearchTrip from "@/components/layout/search-trip";
 import QueryProvider from "@/components/query-provider";
 import FilterTrip from "@/components/layout/filter-trip";
 
+import { Toaster } from "@/components/ui/sonner";
+
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -40,6 +42,7 @@ export default function RootLayout({
             <FilterTrip />
             {children}
           </main>
+          <Toaster />
         </QueryProvider>
       </body>
     </html>

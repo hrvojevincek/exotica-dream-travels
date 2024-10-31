@@ -1,6 +1,6 @@
 "use client";
 
-import { useGetTrips } from "@/lib/hooks/useGetTrips";
+import { useGetTrips } from "@/lib/hooks/use-get-trips";
 import TripCard from "./trip-card";
 import Loader from "../loader";
 import Error from "../error";

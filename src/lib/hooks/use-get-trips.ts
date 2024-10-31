@@ -1,4 +1,4 @@
-import { getTrips } from "@/lib/actions/getTrips";
+import { getTrips } from "@/lib/actions/get-trips.actions";
 import { useQuery } from "@tanstack/react-query";
 import { usePathname } from "next/navigation";
 
