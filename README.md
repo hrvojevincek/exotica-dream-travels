@@ -1,36 +1,55 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Trip Planner & Countdown
 
-## Getting Started
+A modern Next.js application designed to help travelers organize and track their upcoming adventures. This comprehensive trip management system allows users to create, manage, and countdown to their next journey while maintaining an organized collection of past and future travels.
 
-First, run the development server:
+## Overview
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+The application serves as your personal travel companion, offering:
+
+- **Trip Management**: Create, edit, and organize your trips with detailed information
+- **Smart Categorization**: Automatically sorts trips into "Upcoming" and "Completed" categories
+- **Random Trip Picker**: Can't decide where to go next? Let the application surprise you with a random selection from your upcoming adventures
+- **Real-time Countdown**: Track the excitement with a precise countdown showing months, days, and hours until your next departure
+- **Travel History**: Keep a record of your completed journeys for future reference
+
+## Features
+
+- Random trip selection from your saved trips
+- Persistent trip selection (saves to localStorage)
+- Real-time countdown display
+- Automatic cleanup of expired trips
+- Responsive design with a modern UI
+
+## Prerequisites
+
+- Node.js (v19 or higher recommended)
+- npm or yarn
+
+## Environment Setup
+
+Create a `.env` file in the root directory with the following variable:
+
+```plaintext
+API_URL=your_api_endpoint_here
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+For the API endpoint documentation, visit: [API Documentation](your_api_docs_link_here)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Usage
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The application provides a simple interface where users can:
 
-## Learn More
+- Click the "Pick Random Trip" button to randomly select a trip
+- View a countdown timer showing months, days, and hours until the trip
+- The selected trip persists across browser sessions
+- Countdown automatically resets when the trip date passes
 
-To learn more about Next.js, take a look at the following resources:
+## Tech Stack
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Next.js
+- React
+- TypeScript
+- Tailwind CSS
+- Shadcn/UI for components
+- React-Query for data fetching
+- React-Hook-Form for form handling
