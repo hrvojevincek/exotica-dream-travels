@@ -24,11 +24,9 @@ export async function updateTrip(formData: Partial<FormSchema>) {
     const response = await fetch(`${process.env.API_URL}/${formData.id}`, {
       method: "PATCH",
       headers: {
-        "Content-type": "application/json; charset=UTF-8",
+        "Content-type": "application/json",
       },
-      body: JSON.stringify({
-        data: validatedFields,
-      }),
+      body: JSON.stringify(validatedFields),
     });
 
     if (!response.ok) {
@@ -36,13 +34,13 @@ export async function updateTrip(formData: Partial<FormSchema>) {
     }
 
     const trip = await response.json();
-    console.log("Trip created successfully:", trip);
+    console.log("Trip updated successfully:", trip);
     return { success: true, data: trip };
   } catch (error) {
     if (error instanceof z.ZodError) {
       return { success: false, error: transformZodErrors(error) };
     }
-    console.error("Failed to create trip:", error);
-    return { success: false, error: "Failed to create trip" };
+    console.error("Failed to update trip:", error);
+    return { success: false, error: "Failed to update trip" };
   }
 }

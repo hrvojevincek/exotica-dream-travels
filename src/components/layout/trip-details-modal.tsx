@@ -4,8 +4,9 @@ import Image from "next/image";
 import { Separator } from "../ui/separator";
 import TimelineItem from "./timeline-item";
 import { Itinerary } from "@/types/types";
-import { useState } from "react";
+import { useEditTrip } from "@/lib/hooks/use-edit-trip";
 import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 
 interface TripDetailsModalProps {
   photo_url: string;
@@ -28,26 +29,27 @@ const TripDetailsModal = ({
   onClose,
   id,
 }: TripDetailsModalProps) => {
-  const [isCompleted, setIsCompleted] = useState(status === "done");
+  const editTrip = useEditTrip({
+    onSuccess: () => {
+      onClose();
 
-  const handleComplete = async () => {
-    try {
-      const response = await fetch(`${process.env.API_URL}/${id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-        },
-        body: JSON.stringify({
-          status: "done",
-        }),
-      });
+      toast.success("Trip status updated");
+    },
+    onError: (error) => {
+      console.error("Failed to update trip status:", error);
+      toast.error("Failed to update trip status");
+    },
+  });
 
-      if (response.ok) {
-        setIsCompleted(true);
-      }
-    } catch (error) {
-      console.error("Failed to mark trip as complete:", error);
-    }
+  const handleComplete = () => {
+    const newStatus = status === "done" ? "todo" : "done";
+
+    editTrip.mutate({
+      id,
+      status: newStatus,
+      title,
+      itinerary,
+    });
   };
 
   return (
@@ -76,11 +78,10 @@ const TripDetailsModal = ({
             <DialogTitle className="text-[32px] font-normal">
               {title}
             </DialogTitle>
-            <div className="flex items-center text-muted-foreground gap-2">
+            <div className="flex items-center text-muted-foreground gap-2 cursor-pointer">
               <button
                 onClick={handleComplete}
                 className="flex items-center gap-2 hover:text-foreground transition-colors"
-                disabled={isCompleted}
               >
                 <CircleCheck
                   className={cn(
