@@ -33,7 +33,7 @@ export default function TripCard({ trip }: { trip: Trip }) {
 
   return (
     <>
-      <Card className="flex h-[206px] overflow-hidden shadow-none hover:shadow-md">
+      <Card data-testid={`trip-card-${trip.id}`} className="flex h-[206px] overflow-hidden shadow-none hover:shadow-md">
         <div className="relative w-1/2">
           {trip.photo_url ? (
             <Image

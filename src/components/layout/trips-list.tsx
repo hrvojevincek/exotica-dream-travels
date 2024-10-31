@@ -20,14 +20,14 @@ const TripList = () => {
 
   if (filteredTrips.length === 0) {
     return (
-      <div className="h-24 mt-6 w-full flex items-center justify-center">
+      <div data-testid="no-results" className="h-24 mt-6 w-full flex items-center justify-center">
         <h1 className="text-xl">No trips found matching your search</h1>
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col gap-4 mt-6">
+    <div data-testid="trips-container" className="flex flex-col gap-4 mt-6">
       {filteredTrips.map((trip, index) => (
         <TripCard key={`${trip.id}-${index}`} trip={trip} />
       ))}

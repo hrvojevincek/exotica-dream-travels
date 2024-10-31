@@ -16,7 +16,7 @@ const SearchTrip = () => {
     <div className="flex flex-col gap-5 w-[400px] h-40 mt-16 mx-auto">
       <div className="flex flex-col space-y-1 text-center">
         <h1 className="text-4xl font-normal">The places you dream of</h1>
-        <p className="text-xl">Let's live new adventures</p>
+        <p className="text-xl">Let&apos;s live new adventures</p>
       </div>
       <form
         onSubmit={handleSearch}
