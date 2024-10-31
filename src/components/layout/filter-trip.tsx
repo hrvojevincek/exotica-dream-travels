@@ -11,15 +11,19 @@ export default function FilterTrip() {
       <Link
         href="/"
         className={`flex-1 h-full rounded-s-full text-sm transition-colors flex items-center justify-center ${
-          pathname === "/" ? "bg-[#F3F3F3]" : "hover:bg-[#F3F3F3]/50"
+          pathname === "/"
+            ? "bg-custom-light-gray"
+            : "hover:bg-custom-light-gray/50"
         }`}
       >
         All
       </Link>
       <Link
         href="/todo"
-        className={`flex-1 h-full border-l border-r border-[#D8D8D8] text-sm transition-colors flex items-center justify-center ${
-          pathname === "/todo" ? "bg-[#F3F3F3]" : "hover:bg-[#F3F3F3]/50"
+        className={`flex-1 h-full border-l border-r border-custom-border text-sm transition-colors flex items-center justify-center ${
+          pathname === "/todo"
+            ? "bg-custom-light-gray"
+            : "hover:bg-custom-light-gray/50"
         }`}
       >
         Upcoming
@@ -27,7 +31,9 @@ export default function FilterTrip() {
       <Link
         href="/done"
         className={`flex-1 h-full rounded-r-full text-sm transition-colors flex items-center justify-center ${
-          pathname === "/done" ? "bg-[#F3F3F3]" : "hover:bg-[#F3F3F3]/50"
+          pathname === "/done"
+            ? "bg-custom-light-gray"
+            : "hover:bg-custom-light-gray/50"
         }`}
       >
         Completed

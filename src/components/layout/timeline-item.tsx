@@ -21,7 +21,7 @@ const TimelineItem = ({
       <h3>
         Day {day}: {location}
       </h3>
-      <p className="text-[#898989]">{description}</p>
+      <p className="text-custom-text-gray">{description}</p>
     </div>
   </div>
 );
