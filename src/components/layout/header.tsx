@@ -2,8 +2,8 @@
 
 import React, { useState } from "react";
 import { Button } from "../ui/button";
-
 import Logo from "../../../public/icons/logo";
+import CreateTripModal from "./create-trip-modal";
 
 const Header = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -22,6 +22,10 @@ const Header = () => {
           Create new trip
         </Button>
       </div>
+      <CreateTripModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </>
   );
 };
