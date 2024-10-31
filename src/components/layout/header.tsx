@@ -25,6 +25,7 @@ const Header = () => {
       <CreateTripModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
+        mode="create"
       />
     </>
   );

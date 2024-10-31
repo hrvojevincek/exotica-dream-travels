@@ -10,9 +10,10 @@ export const transformZodErrors = (error: z.ZodError) => {
   }));
 };
 
-export async function createTrip(formData: FormSchema) {
+export async function updateTrip(formData: Partial<FormSchema>) {
   try {
     const validatedFields = formSchema.parse({
+      id: formData.id,
       title: formData.title,
       description: formData.description,
       photo_url: formData.photo_url,
@@ -20,8 +21,8 @@ export async function createTrip(formData: FormSchema) {
       itinerary: formData.itinerary,
     });
 
-    const response = await fetch(`${process.env.API_URL}`, {
-      method: "POST",
+    const response = await fetch(`${process.env.API_URL}/${formData.id}`, {
+      method: "PATCH",
       headers: {
         "Content-type": "application/json; charset=UTF-8",
       },

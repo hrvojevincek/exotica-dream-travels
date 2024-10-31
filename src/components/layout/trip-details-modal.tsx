@@ -4,24 +4,52 @@ import Image from "next/image";
 import { Separator } from "../ui/separator";
 import TimelineItem from "./timeline-item";
 import { Itinerary } from "@/types/types";
+import { useState } from "react";
+import { cn } from "@/lib/utils";
 
 interface TripDetailsModalProps {
   photo_url: string;
   title: string;
+  status: string;
   description: string;
   itinerary: Itinerary[];
   isOpen: boolean;
   onClose: () => void;
+  id: number;
 }
 
 const TripDetailsModal = ({
   photo_url,
   title,
+  status,
   description,
   itinerary,
   isOpen,
   onClose,
+  id,
 }: TripDetailsModalProps) => {
+  const [isCompleted, setIsCompleted] = useState(status === "done");
+
+  const handleComplete = async () => {
+    try {
+      const response = await fetch(`${process.env.API_URL}/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+        body: JSON.stringify({
+          status: "done",
+        }),
+      });
+
+      if (response.ok) {
+        setIsCompleted(true);
+      }
+    } catch (error) {
+      console.error("Failed to mark trip as complete:", error);
+    }
+  };
+
   return (
     <Dialog
       open={isOpen}
@@ -49,8 +77,22 @@ const TripDetailsModal = ({
               {title}
             </DialogTitle>
             <div className="flex items-center text-muted-foreground gap-2">
-              <CircleCheck className="size-5" aria-hidden="true" />
-              <h2 className="text-base">Mark as completed</h2>
+              <button
+                onClick={handleComplete}
+                className="flex items-center gap-2 hover:text-foreground transition-colors"
+                disabled={isCompleted}
+              >
+                <CircleCheck
+                  className={cn(
+                    "size-6",
+                    status === "done" && "fill-green-500 text-white"
+                  )}
+                  aria-hidden="true"
+                />
+                <span className="text-base">
+                  {status === "done" ? "Complete" : "Mark as completed"}
+                </span>
+              </button>
             </div>
 
             <div className="mt-6 space-y-5">

@@ -6,10 +6,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import TripDetailsModal from "./trip-details-modal";
+import CreateTripModal from "./create-trip-modal";
 import { Trip } from "@/types/types";
 
 export default function TripCard({ trip }: { trip: Trip }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   return (
     <Card className="flex h-[206px] overflow-hidden shadow-none hover:shadow-md">
@@ -46,13 +48,14 @@ export default function TripCard({ trip }: { trip: Trip }) {
           <div className="flex items-center gap-2">
             <Button
               variant="outline"
-              className="underline bg-white text-base text-black shadow-none border-none hover:none"
+              className="underline bg-white text-base text-black shadow-none border-none"
+              onClick={() => setIsEditModalOpen(true)}
             >
               Edit
             </Button>
             <Button
               variant="outline"
-              className="text-red-500 text-base bg-white underline shadow-none border-none hover:none"
+              className="text-red-500 text-base bg-white underline shadow-none border-none"
             >
               Delete
             </Button>
@@ -60,12 +63,20 @@ export default function TripCard({ trip }: { trip: Trip }) {
         </div>
       </div>
       <TripDetailsModal
+        id={trip.id}
+        status={trip.status}
         photo_url={trip.photo_url}
         title={trip.title}
         description={trip.description}
         itinerary={trip.itinerary}
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
+      />
+      <CreateTripModal
+        isOpen={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+        initialData={trip}
+        mode="edit"
       />
     </Card>
   );

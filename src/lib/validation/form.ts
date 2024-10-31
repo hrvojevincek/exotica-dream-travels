@@ -7,6 +7,7 @@ const itinerarySchema = z.object({
 });
 
 export const formSchema = z.object({
+  id: z.number().optional(),
   title: z.string().min(3, "Title should be at least 3 characters"),
   description: z
     .string()

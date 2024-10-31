@@ -26,14 +26,24 @@ import { type FormSchema, formSchema } from "@/lib/validation/form";
 import { useCreateTrip } from "@/lib/hooks/use-create-trip";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { useEffect } from "react";
+import { useEditTrip } from "@/lib/hooks/use-edit-trip";
 
 interface CreateTripModalProps {
   isOpen: boolean;
   onClose: () => void;
+  initialData?: FormSchema;
+  mode?: "create" | "edit";
 }
 
-export default function Component({ isOpen, onClose }: CreateTripModalProps) {
+export default function Component({
+  isOpen,
+  onClose,
+  initialData,
+  mode = "create",
+}: CreateTripModalProps) {
   const router = useRouter();
+
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -44,6 +54,21 @@ export default function Component({ isOpen, onClose }: CreateTripModalProps) {
       itinerary: [{ day: 1, location: "", description: "" }],
     },
   });
+
+  useEffect(() => {
+    if (initialData) {
+      form.reset({
+        title: initialData.title,
+        description: initialData.description,
+        photo_url: initialData.photo_url,
+        status: initialData.status,
+        itinerary:
+          initialData.itinerary.length > 0
+            ? initialData.itinerary
+            : [{ day: 1, location: "", description: "" }],
+      });
+    }
+  }, [initialData, form]);
 
   const {
     register,
@@ -65,8 +90,25 @@ export default function Component({ isOpen, onClose }: CreateTripModalProps) {
     },
   });
 
+  const editTrip = useEditTrip({
+    onSuccess: () => {
+      form.reset();
+      onClose();
+      toast.success("Trip updated successfully");
+      router.refresh();
+    },
+    onError: (error) => {
+      console.error("Failed to update trip:", error);
+      toast.error("Failed to update trip");
+    },
+  });
+
   const onSubmitForm = (data: FormSchema) => {
-    createTrip.mutate(data);
+    if (mode === "edit" && initialData?.id) {
+      editTrip.mutate({ ...data, id: initialData.id });
+    } else {
+      createTrip.mutate(data);
+    }
   };
 
   const handleAddItineraryItem = () => {
@@ -89,7 +131,7 @@ export default function Component({ isOpen, onClose }: CreateTripModalProps) {
       >
         <DialogHeader>
           <DialogTitle className="text-[32px] font-normal">
-            Create a trip
+            {mode === "edit" ? "Edit trip" : "Create a trip"}
           </DialogTitle>
         </DialogHeader>
 
@@ -216,9 +258,9 @@ export default function Component({ isOpen, onClose }: CreateTripModalProps) {
               ))}
             </div>
 
-            <div className="flex justify-end">
+            <div className="flex justify-start">
               <Button className="h-12 w-40 rounded-full" type="submit">
-                Save
+                {mode === "edit" ? "Update" : "Save"}
               </Button>
             </div>
           </form>
