@@ -2,7 +2,7 @@
 
 import { useGetTrips } from "@/lib/hooks/use-get-trips";
 import { Button } from "../ui/button";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Trip } from "@/types/types";
 import { Shuffle } from "lucide-react";
 import {
@@ -11,6 +11,7 @@ import {
   differenceInHours,
   addMonths,
 } from "date-fns";
+import TripDetailsModal from "./trip-details-modal";
 
 interface SavedTripData {
   trip: Trip;
@@ -27,6 +28,7 @@ export default function RandomTripSelector() {
   const { data: trips } = useGetTrips();
   const [selectedTrip, setSelectedTrip] = useState<SavedTripData | null>(null);
   const [countdown, setCountdown] = useState<CountdownTime | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     // Load saved trip data from localStorage
@@ -72,7 +74,7 @@ export default function RandomTripSelector() {
     }
   }, [selectedTrip]);
 
-  const handleRandomSelect = () => {
+  const handleRandomSelect = useCallback(() => {
     if (!trips || trips.length === 0) return;
 
     const randomIndex = Math.floor(Math.random() * trips.length);
@@ -82,7 +84,7 @@ export default function RandomTripSelector() {
     const tripData = { trip: selectedTrip, startDate };
     setSelectedTrip(tripData);
     localStorage.setItem("selectedRandomTrip", JSON.stringify(tripData));
-  };
+  }, [trips]);
 
   return (
     <div className="flex flex-col items-center gap-4 mt-8">
@@ -95,32 +97,50 @@ export default function RandomTripSelector() {
       </Button>
 
       {selectedTrip && countdown && (
-        <div className="text-center space-y-2">
-          <h3 className="text-xl font-semibold">{selectedTrip.trip.title}</h3>
-          <div className="flex gap-4 justify-center">
-            <div className="flex flex-col items-center bg-gray-100 rounded-lg p-3 min-w-[100px]">
-              <span className="text-2xl font-bold">{countdown.months}</span>
-              <span className="text-sm text-gray-600">
-                {countdown.months === 1 ? "Month" : "Months"}
-              </span>
+        <>
+          <div
+            className="text-center space-y-2 cursor-pointer hover:opacity-80 transition-opacity"
+            onClick={() => setIsModalOpen(true)}
+          >
+            <h3 className="text-xl font-semibold cursor-pointer hover:text-black/50">
+              {selectedTrip.trip.title}
+            </h3>
+            <div className="flex gap-4 justify-center">
+              <div className="flex flex-col items-center bg-gray-100 rounded-lg p-3 min-w-[100px]">
+                <span className="text-2xl font-bold">{countdown.months}</span>
+                <span className="text-sm text-gray-600">
+                  {countdown.months === 1 ? "Month" : "Months"}
+                </span>
+              </div>
+              <div className="flex flex-col items-center bg-gray-100 rounded-lg p-3 min-w-[100px]">
+                <span className="text-2xl font-bold">{countdown.days}</span>
+                <span className="text-sm text-gray-600">
+                  {countdown.days === 1 ? "Day" : "Days"}
+                </span>
+              </div>
+              <div className="flex flex-col items-center bg-gray-100 rounded-lg p-3 min-w-[100px]">
+                <span className="text-2xl font-bold">{countdown.hours}</span>
+                <span className="text-sm text-gray-600">
+                  {countdown.hours === 1 ? "Hour" : "Hours"}
+                </span>
+              </div>
             </div>
-            <div className="flex flex-col items-center bg-gray-100 rounded-lg p-3 min-w-[100px]">
-              <span className="text-2xl font-bold">{countdown.days}</span>
-              <span className="text-sm text-gray-600">
-                {countdown.days === 1 ? "Day" : "Days"}
-              </span>
-            </div>
-            <div className="flex flex-col items-center bg-gray-100 rounded-lg p-3 min-w-[100px]">
-              <span className="text-2xl font-bold">{countdown.hours}</span>
-              <span className="text-sm text-gray-600">
-                {countdown.hours === 1 ? "Hour" : "Hours"}
-              </span>
-            </div>
+            <p className="text-sm text-gray-600 mt-2">
+              until your adventure begins!
+            </p>
           </div>
-          <p className="text-sm text-gray-600 mt-2">
-            until your adventure begins!
-          </p>
-        </div>
+
+          <TripDetailsModal
+            id={selectedTrip.trip.id}
+            photo_url={selectedTrip.trip.photo_url}
+            title={selectedTrip.trip.title}
+            description={selectedTrip.trip.description}
+            status={selectedTrip.trip.status}
+            itinerary={selectedTrip.trip.itinerary}
+            isOpen={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+          />
+        </>
       )}
     </div>
   );
