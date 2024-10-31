@@ -4,7 +4,7 @@ import React from "react";
 const Loader = () => {
   return (
     <div className="h-96 mt-6 w-full flex items-center justify-center">
-      <LoaderIcon className="size-6 animate-spin text-black" />
+      <LoaderIcon className="size-10 animate-spin text-black" />
     </div>
   );
 };

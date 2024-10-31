@@ -2,14 +2,16 @@
 
 import { useGetTrips } from "@/lib/hooks/useGetTrips";
 import TripCard from "./trip-card";
-import { Loader } from "lucide-react";
+import Loader from "../loader";
+import Error from "../error";
+import NoTrips from "../no-trips";
 
 const TripList = () => {
-  const { data: trips, isLoading, error } = useGetTrips();
+  const { data: trips, isLoading, isError, error } = useGetTrips();
 
   if (isLoading) return <Loader />;
-  if (error) return <div>Error: {error.message}</div>;
-  if (!trips) return <div>No trips found</div>;
+  if (isError) return <Error error={error} />;
+  if (!trips) return <NoTrips />;
 
   return (
     <div className="flex flex-col gap-4 mt-6">
